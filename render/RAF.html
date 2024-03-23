@@ -8,12 +8,13 @@
 <body>
   <h1>模拟requestAnimationFrame和cancelAnimationFrame</h1>
   <h2>requestAnimationFrame的回调是有参数的，但setTimeout的回掉函数是没有参数的</h2>
+  <div id="box"></div>
   <script>
     let a= requestAnimationFrame(function (a){
       console.log('requestAnimationFrame的callback的参数:',a)
+      box.innerText = '页面加载到执行这个requestAnimationFrame的回调函数经过过了' + a + '毫秒'
     })
     // cancelAnimationFrame(a)
-
     var RAF = function(callback){
       return setTimeout(callback,1000 / 60)
     }
