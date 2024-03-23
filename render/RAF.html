@@ -7,9 +7,10 @@
 </head>
 <body>
   <h1>模拟requestAnimationFrame和cancelAnimationFrame</h1>
+  <h2>requestAnimationFrame的回调是有参数的，但setTimeout的回掉函数是没有参数的</h2>
   <script>
-    let a= requestAnimationFrame((a)=>{
-      console.log(a)
+    let a= requestAnimationFrame(function (a){
+      console.log('requestAnimationFrame的callback的参数:',a)
     })
     // cancelAnimationFrame(a)
 
@@ -19,8 +20,8 @@
     var CancelFAF =function(cancel){
       clearTimeout(cancel)
     }
-    let b = RAF(function(){
-      console.log('aaa')
+    let b = RAF(function(args){
+      console.log('定时器callback的参数:',args)
     })
     // CancelFAF(b)
   </script>
