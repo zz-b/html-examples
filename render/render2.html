@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <h1>模拟浏览器帧率低于60的渲染情况</h1>
+  <button id="button">点击</button>
+  <button id="renderBtn">开始渲染</button>
+  <p>可以打开控制台查看细节</p>
+  <p id="p">点击率了0次</p>
+  <script>
+    const button = document.getElementById('button')
+    const renderBtn = document.getElementById('renderBtn')
+    const p = document.getElementById('p')
+    function sleep(time){
+      let start = Date.now();
+      while(Date.now() - start < time){}
+    }
+    let renderList = [];
+    let num = 0;
+    function RAF(n){
+      // 每隔n帧渲染一次
+      return new Promise((resolve)=>{
+        let num = 0;
+        function fn(){
+          num ++;
+          if(num>n) return resolve()
+          requestAnimationFrame(fn)
+        }
+        fn();
+      })
+    }
+    function render(){
+      console.log(`目前renderList里面共有${renderList.length}个任务！` );
+      async function  _render() {
+        let task = renderList.shift();
+        if(typeof task != "function") return;
+        requestAnimationFrame(task);
+        await RAF(60);
+        _render()
+      }
+      _render();
+    }
+    button.addEventListener("click",function(){
+      num ++;
+      function task(n){
+        return function(){
+          p.innerText = `点击率了${n}次`;
+          console.log(`点击率了${n}次`)
+        }
+      }
+      renderList.push(task(num));
+      sleep(Math.random() * 1000);
+    })
+    renderBtn.addEventListener("click",function(){
+      render()
+    })
+  </script>
+</body>
+</html>
