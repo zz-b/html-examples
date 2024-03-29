@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FLIP动画</title>
+  <style>
+    ul{
+      width: 300px;
+      padding: 0;
+    }
+    li{
+      border-radius: 3px;
+      list-style: none;
+      margin: 10px;
+    }
+    li[class='li1']{
+      background-color: skyblue;
+    }
+    li[class='li2']{
+      background-color: yellow;
+    }
+    li[class='li2']{
+      background-color: green;
+    }
+    li[class='li3']{
+      background-color: red;
+    }
+    li[class='li4']{
+      background-color:pink;
+    }
+  </style>
+</head>
+<body>
+  <button id="button">Click Me</button>
+  <ul>
+    <li class="li1">1</li>
+    <li class="li2">2</li>
+    <li class="li3">3</li>
+    <li class="li4">4</li>
+  </ul>
+  <script>
+    let button = document.getElementById("button");
+    let li1 = document.querySelector(".li1")
+    let li2 = document.querySelector(".li2")
+    let ul = document.querySelector("ul")
+    button.addEventListener("click",function(){
+      // console.log(li1)
+      let rect1 = li1.getBoundingClientRect();
+      // console.log(rect1.top)
+      ul.insertBefore(li1, null);
+      let rect2 = li1.getBoundingClientRect();
+      // console.log(rect2.top)
+      li1.style.transform = `translateY(${rect1.top - rect2.top}px)`
+      requestAnimationFrame(function(){
+        li1.style.transform = `translateY(0px)`
+        li1.style.transition = 'all 2s'
+      })
+    })
+  </script>
+</body>
+</html>
